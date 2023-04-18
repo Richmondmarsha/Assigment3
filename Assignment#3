@@ -1,0 +1,428 @@
+// Interface Payable
+public interface Payable {
+    double getPaymentAmount();
+}
+
+// Employee class
+public class Employee {
+    private String firstname;
+    private String lastName;
+    private String socialsecurityNumber;
+
+    // Constructor
+    public Employee(String firstname, String lastName, String socialsecurityNumber) {
+        this.firstname = firstname;
+        this.lastName = lastName;
+        this.socialsecurityNumber = socialsecurityNumber;
+    }
+
+    // Getters and Setters
+    // ...
+
+    // Other methods
+    // ...
+}
+
+// Invoice class
+public class Invoice {
+    private String partNumber;
+    private String partDescription;
+    private int quantity;
+    private double pricePerItem;
+
+    // Constructor
+    public Invoice(String partNumber, String partDescription, int quantity, double pricePerItem) {
+        this.partNumber = partNumber;
+        this.partDescription = partDescription;
+        this.quantity = quantity;
+        this.pricePerItem = pricePerItem;
+    }
+
+    // Getters and Setters
+    // ...
+
+    // Other methods
+    // ...
+}
+
+// CommissionEmployee class
+public class CommissionEmployee extends Employee implements Payable {
+    private double grossSale;
+    private double commissionRate;
+
+    // Constructor
+    public CommissionEmployee(String firstname, String lastName, String socialsecurityNumber,
+                               double grossSale, double commissionRate) {
+        super(firstname, lastName, socialsecurityNumber);
+        this.grossSale = grossSale;
+        this.commissionRate = commissionRate;
+    }
+
+    // Implementing the getPaymentAmount() method from Payable interface
+    public double getPaymentAmount() {
+        return grossSale * commissionRate;
+    }
+
+    // Getters and Setters
+    // ...
+
+    // Other methods
+    // ...
+}
+
+// HourlyEmployee class
+public class HourlyEmployee extends Employee implements Payable {
+    private double wage;
+    private double hours;
+
+    // Constructor
+    public HourlyEmployee(String firstname, String lastName, String socialsecurityNumber,
+                            double wage, double hours) {
+        super(firstname, lastName, socialsecurityNumber);
+        this.wage = wage;
+        this.hours = hours;
+    }
+
+    // Implementing the getPaymentAmount() method from Payable interface
+    public double getPaymentAmount() {
+        return wage * hours;
+    }
+
+    // Getters and Setters
+    // ...
+
+    // Other methods
+    // ...
+}
+
+// SalariesEmployee class
+public class SalariesEmployee extends Employee implements Payable {
+    private double weeklySalary;
+
+    // Constructor
+    public SalariesEmployee(String firstname, String lastName, String socialsecurityNumber,
+                             double weeklySalary) {
+        super(firstname, lastName, socialsecurityNumber);
+        this.weeklySalary = weeklySalary;
+    }
+
+    // Implementing the getPaymentAmount() method from Payable interface
+    public double getPaymentAmount() {
+        return weeklySalary;
+    }
+
+    // Getters and Setters
+    // ...
+
+    // Other methods
+    // ...
+}
+
+// BaseplusCommissionEmployee class
+public class BaseplusCommissionEmployee extends CommissionEmployee {
+    private double baseSalary;
+
+    // Constructor
+    public BaseplusCommissionEmployee(String firstname, String lastName, String socialsecurityNumber,
+                                        double grossSale, double commissionRate, double baseSalary) {
+        super(firstname, lastName, socialsecurityNumber, grossSale, commissionRate);
+        this.baseSalary = baseSalary;
+    }
+
+    // Overriding the getPaymentAmount() method from CommissionEmployee class
+    // to include baseSalary
+    public double getPaymentAmount() {
+        return super.getPaymentAmount() + baseSalary;
+    }
+
+    // Getters and Set
+#2
+        import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+
+    // Interface Payable
+    public interface Payable {
+        double getPaymentAmount();
+        void writeToFile() throws IOException;
+    }
+
+    // Employee class
+    public class Employee {
+        // ...
+
+        // Other methods
+        // ...
+
+        // Helper method to generate pay stub file name
+        protected String generatePayStubFileName() {
+            // Generate file name based on employee's name and current date
+            String fileName = this.firstname + "_" + this.lastName + "_PayStub_"
+                    + LocalDate.now().toString() + ".txt";
+            return fileName;
+        }
+    }
+
+    // CommissionEmployee class
+    public class CommissionEmployee extends Employee implements Payable {
+        // ...
+
+        // Implementing the getPaymentAmount() and writeToFile() methods from Payable interface
+        public double getPaymentAmount() {
+            // Calculate payment amount based on commission and gross sale
+            return grossSale * commissionRate;
+        }
+
+        public void writeToFile() throws IOException {
+            // Generate pay stub file name
+            String fileName = generatePayStubFileName();
+
+            // Create file writer and print writer objects
+            FileWriter fileWriter = new FileWriter(fileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            // Write pay stub details to the file
+            printWriter.println("Pay Stub for Employee: " + this.firstname + " " + this.lastName);
+            printWriter.println("Date of Payment: " + LocalDate.now().toString());
+            printWriter.println("Payment Amount: $" + getPaymentAmount());
+
+            // Close file writer and print writer
+            printWriter.close();
+            fileWriter.close();
+        }
+
+        // Getters and Setters
+        // ...
+
+        // Other methods
+        // ...
+    }
+
+    // HourlyEmployee class
+    public class HourlyEmployee extends Employee implements Payable {
+        // ...
+
+        // Implementing the getPaymentAmount() and writeToFile() methods from Payable interface
+        public double getPaymentAmount() {
+            // Calculate payment amount based on wage and hours worked
+            return wage * hours;
+        }
+
+        public void writeToFile() throws IOException {
+            // Generate pay stub file name
+            String fileName = generatePayStubFileName();
+
+            // Create file writer and print writer objects
+            FileWriter fileWriter = new FileWriter(fileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            // Write pay stub details to the file
+            printWriter.println("Pay Stub for Employee: " + this.firstname + " " + this.lastName);
+            printWriter.println("Date of Payment: " + LocalDate.now().toString());
+            printWriter.println("Payment Amount: $" + getPaymentAmount());
+
+            // Close file writer and print writer
+            printWriter.close();
+            fileWriter.close();
+        }
+
+        // Getters and Setters
+        // ...
+
+        // Other methods
+        // ...
+    }
+
+    // SalariesEmployee class
+    public class SalariesEmployee extends Employee implements Payable {
+        // ...
+
+        // Implementing the getPaymentAmount() and writeToFile() methods from Payable interface
+        public double getPaymentAmount() {
+            // Return the weekly salary as the payment amount
+            return weeklySalary;
+        }
+
+        public void writeToFile() throws IOException {
+            // Generate pay stub file name
+            String fileName = generatePayStubFileName();
+
+            // Create file writer and print writer objects
+            FileWriter fileWriter = new FileWriter(fileName);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            // Write pay stub details to the file
+            printWriter.println("Pay Stub for Employee: " + this.firstname + " " + this.lastName);
+            printWriter.println("Date of Payment: " + LocalDate.now
+#3
+     import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+
+// Interface Payable
+            public interface Payable {
+                double getPaymentAmount();
+                void writeToFile() throws IOException;
+            }
+
+// Employee class
+            public class Employee {
+                // ...
+
+                // Other methods
+                // ...
+
+                // Helper method to generate pay stub file name
+                protected String generatePayStubFileName() {
+                    // Generate file name based on employee's name and current date
+                    String fileName = this.firstname + "_" + this.lastName + "_PayStub_"
+                            + LocalDate.now().toString() + ".txt";
+                    return fileName;
+                }
+            }
+
+// CommissionEmployee class
+            public class CommissionEmployee extends Employee implements Payable {
+                // ...
+
+                // Implementing the getPaymentAmount() and writeToFile() methods from Payable interface
+                public double getPaymentAmount() {
+                    // Calculate payment amount based on commission and gross sale
+                    return grossSale * commissionRate;
+                }
+
+                public void writeToFile() throws IOException {
+                    // Generate pay stub file name
+                    String fileName = generatePayStubFileName();
+
+                    // Create file writer and print writer objects
+                    FileWriter fileWriter = null;
+                    PrintWriter printWriter = null;
+
+                    try {
+                        fileWriter = new FileWriter(fileName);
+                        printWriter = new PrintWriter(fileWriter);
+
+                        // Write pay stub details to the file
+                        printWriter.println("Pay Stub for Employee: " + this.firstname + " " + this.lastName);
+                        printWriter.println("Date of Payment: " + LocalDate.now().toString());
+                        printWriter.println("Payment Amount: $" + getPaymentAmount());
+                    } catch (IOException e) {
+                        // Handle exception
+                        e.printStackTrace();
+                    } finally {
+                        // Close file writer and print writer
+                        if (printWriter != null) {
+                            printWriter.close();
+                        }
+                        if (fileWriter != null) {
+                            fileWriter.close();
+                        }
+                    }
+                }
+
+                // Getters and Setters
+                // ...
+
+                // Other methods
+                // ...
+            }
+
+// HourlyEmployee class
+            public class HourlyEmployee extends Employee implements Payable {
+                // ...
+
+                // Implementing the getPaymentAmount() and writeToFile() methods from Payable interface
+                public double getPaymentAmount() {
+                    // Calculate payment amount based on wage and hours worked
+                    return wage * hours;
+                }
+
+                public void writeToFile() throws IOException {
+                    // Generate pay stub file name
+                    String fileName = generatePayStubFileName();
+
+                    // Create file writer and print writer objects
+                    FileWriter fileWriter = null;
+                    PrintWriter printWriter = null;
+
+                    try {
+                        fileWriter = new FileWriter(fileName);
+                        printWriter = new PrintWriter(fileWriter);
+
+                        // Write pay stub details to the file
+                        printWriter.println("Pay Stub for Employee: " + this.firstname + " " + this.lastName);
+                        printWriter.println("Date of Payment: " + LocalDate.now().toString());
+                        printWriter.println("Payment Amount: $" + getPaymentAmount());
+                    } catch (IOException e) {
+                        // Handle exception
+                        e.printStackTrace();
+                    } finally {
+                        // Close file writer and print writer
+                        if (printWriter != null) {
+                            printWriter.close();
+                        }
+                        if (fileWriter != null) {
+                            fileWriter.close();
+                        }
+                    }
+                }
+
+                // Getters and Setters
+                // ...
+
+                // Other methods
+                // ...
+            }
+
+// SalariesEmployee class
+            public class SalariesEmployee extends Employee implements Payable {
+                // ...
+
+                // Implementing the getPaymentAmount() and writeToFile() methods from Payable interface
+                public double getPaymentAmount()
+#4
+                public class Payroll {
+                    public static void main(String[] args) {
+                        // Create CommissionEmployee object
+                        CommissionEmployee commissionEmployee = new CommissionEmployee("John", "Doe", "123456789", 5000.0, 0.1);
+                        // Call getPaymentAmount() method
+                        double commissionPayment = commissionEmployee.getPaymentAmount();
+                        System.out.println("Commission Payment: $" + commissionPayment);
+                        // Call writeToFile() method
+                        try {
+                            commissionEmployee.writeToFile();
+                            System.out.println("Pay stub for Commission Employee created successfully.");
+                        } catch (IOException e) {
+                            System.out.println("Failed to create pay stub for Commission Employee. Exception: " + e.getMessage());
+                        }
+
+                        // Create HourlyEmployee object
+                        HourlyEmployee hourlyEmployee = new HourlyEmployee("Jane", "Smith", "987654321", 20.0, 40.0);
+                        // Call getPaymentAmount() method
+                        double hourlyPayment = hourlyEmployee.getPaymentAmount();
+                        System.out.println("Hourly Payment: $" + hourlyPayment);
+                        // Call writeToFile() method
+                        try {
+                            hourlyEmployee.writeToFile();
+                            System.out.println("Pay stub for Hourly Employee created successfully.");
+                        } catch (IOException e) {
+                            System.out.println("Failed to create pay stub for Hourly Employee. Exception: " + e.getMessage());
+                        }
+
+                        // Create SalariesEmployee object
+                        SalariesEmployee salariesEmployee = new SalariesEmployee("Alice", "Johnson", "567890123", 1000.0);
+                        // Call getPaymentAmount() method
+                        double salariesPayment = salariesEmployee.getPaymentAmount();
+                        System.out.println("Salaries Payment: $" + salariesPayment);
+                        // Call writeToFile() method
+                        try {
+                            salariesEmployee.writeToFile();
+                            System.out.println("Pay stub for Salaries Employee created successfully.");
+                        } catch (IOException e) {
+                            System.out.println("Failed to create pay stub for Salaries Employee. Exception: " + e.getMessage());
+                        }
+                    }
+                }
